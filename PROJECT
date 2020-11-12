@@ -1,0 +1,14 @@
+domain: w0nwig.com
+layout: go.kubebuilder.io/v2
+projectName: cache-operator
+repo: github.com/w0nwig/cache-operator
+resources:
+- group: cache
+  kind: Memcached
+  version: v1
+- group: cache
+  kind: Redis
+  version: v1
+version: 3-alpha
+plugins:
+  go.sdk.operatorframework.io/v2-alpha: {}
