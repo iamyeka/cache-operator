@@ -19,7 +19,7 @@ package controllers
 import (
 	"context"
 	"github.com/go-logr/logr"
-	cachev1alpha1 "github.com/w0nwig/cache-operator/api/v1"
+	cachev1 "github.com/w0nwig/cache-operator/api/v1"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -46,7 +46,7 @@ func (r *MemcachedReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("memcached", req.NamespacedName)
 
 	// Fetch the Memcached instance
-	memcached := &cachev1alpha1.Memcached{}
+	memcached := &cachev1.Memcached{}
 	err := r.Get(ctx, req.NamespacedName, memcached)
 	if err != nil {
 		if errors.IsNotFound(err) {
@@ -120,7 +120,7 @@ func (r *MemcachedReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 }
 
 // deploymentForMemcached returns a memcached Deployment object
-func (r *MemcachedReconciler) deploymentForMemcached(m *cachev1alpha1.Memcached) *appsv1.Deployment {
+func (r *MemcachedReconciler) deploymentForMemcached(m *cachev1.Memcached) *appsv1.Deployment {
 	ls := labelsForMemcached(m.Name)
 	replicas := m.Spec.Size
 
@@ -163,18 +163,9 @@ func labelsForMemcached(name string) map[string]string {
 	return map[string]string{"app": "memcached", "memcached_cr": name}
 }
 
-// getPodNames returns the pod names of the array of pods passed in
-func getPodNames(pods []corev1.Pod) []string {
-	var podNames []string
-	for _, pod := range pods {
-		podNames = append(podNames, pod.Name)
-	}
-	return podNames
-}
-
 func (r *MemcachedReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&cachev1alpha1.Memcached{}).
+		For(&cachev1.Memcached{}).
 		Owns(&appsv1.Deployment{}).
 		Complete(r)
 }
