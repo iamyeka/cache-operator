@@ -28,14 +28,16 @@ type RedisSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of Redis. Edit Redis_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// Size is the size of the redis deployment
+	Size int32 `json:"size"`
 }
 
 // RedisStatus defines the observed state of Redis
 type RedisStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	// Nodes are the names of the redis pods
+	Nodes []string `json:"nodes"`
 }
 
 // +kubebuilder:object:root=true
