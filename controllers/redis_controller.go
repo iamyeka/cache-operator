@@ -137,12 +137,12 @@ func (r *RedisReconciler) deploymentForRedis(m *cachev1.Redis) *appsv1.Deploymen
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{{
-						Image:   "memcached:1.4.36-alpine",
-						Name:    "memcached",
-						Command: []string{"memcached", "-m=64", "-o", "modern", "-v"},
+						Image:   "redis",
+						Name:    "redis",
+						Command: []string{},
 						Ports: []corev1.ContainerPort{{
-							ContainerPort: 11211,
-							Name:          "memcached",
+							ContainerPort: 6379,
+							Name:          "redis",
 						}},
 					}},
 				},
